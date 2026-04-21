@@ -3,11 +3,17 @@ version: 1.0.{build}
 image: Visual Studio 2022
 
 environment:
-  DOTNET_VERSION: 10.0.x
+  DOTNET_INSTALL_DIR: C:\Program Files\dotnet
 
 install:
-  - cmd: choco install dotnet-sdk --pre --version=10.0.103 -y
-  - cmd: dotnet --version
+  - ps: |
+      $env:DOTNET_INSTALL_DIR = "C:\Program Files\dotnet"
+      Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+      .\dotnet-install.ps1 -Channel 10.0 -Quality GA -InstallDir $env:DOTNET_INSTALL_DIR
+      $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
+      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
+      dotnet --version
+      dotnet --list-sdks
   - cmd: dotnet tool restore
 
 build_script:
