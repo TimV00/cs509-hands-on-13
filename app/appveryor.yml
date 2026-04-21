@@ -6,17 +6,25 @@ environment:
   DOTNET_VERSION: 9.0.x
 
 install:
+  - cmd: choco install dotnet-sdk --version=9.0.0 -y
   - cmd: dotnet tool restore
 
 build_script:
-  - cmd: dotnet cake --target=Build
-
-test_script:
-  - cmd: dotnet cake --target=Test
-
-after_build:
-  - cmd: dotnet cake --target=Docs
+  - cmd: dotnet cake --target=Full
 
 artifacts:
-  - path: docs/_site/**/*
+  - path: docs-site.zip
     name: Documentation
+  - path: TestResults\*.trx
+    name: TestResults
+
+on_failure:
+  - cmd: echo "Build failed — check the logs above"
+
+notifications:
+  - provider: Email
+    to:
+      - you@example.com
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
