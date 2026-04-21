@@ -6,16 +6,18 @@ init:
   - ps: |
       Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
       .\dotnet-install.ps1 -Channel 10.0 -InstallDir "C:\Program Files\dotnet"
-      $env:DOTNET_ROOT = "C:\Program Files\dotnet"
-      $env:PATH = "C:\Program Files\dotnet;" + $env:PATH
-      [Environment]::SetEnvironmentVariable("DOTNET_ROOT", $env:DOTNET_ROOT, "Machine")
-      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
-      dotnet --list-sdks
+      [Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\Program Files\dotnet", "Machine")
+      [Environment]::SetEnvironmentVariable("PATH", "C:\Program Files\dotnet;" + [Environment]::GetEnvironmentVariable("PATH", "Machine"), "Machine")
+  - cmd: refreshenv
+  - cmd: dotnet --list-sdks
 
 install:
+  - cmd: refreshenv
+  - cmd: dotnet --version
   - cmd: dotnet tool restore
 
 build_script:
+  - cmd: refreshenv
   - cmd: dotnet cake --target=Full
 
 artifacts:
