@@ -11,13 +11,12 @@ install:
       [Environment]::SetEnvironmentVariable("DOTNET_ROOT", "C:\Program Files\dotnet", "Machine")
       [Environment]::SetEnvironmentVariable("PATH", "C:\Program Files\dotnet;" + [Environment]::GetEnvironmentVariable("PATH", "Machine"), "Machine")
   - cmd: refreshenv
-  - cmd: dotnet --list-sdks
   - cmd: dotnet --version
-  - cmd: cd app && dotnet tool restore
+  - ps: Push-Location app; dotnet tool restore; Pop-Location
 
 build_script:
   - cmd: refreshenv
-  - cmd: cd app && dotnet cake --target=Full
+  - ps: Push-Location app; dotnet cake --target=Full; Pop-Location
 
 artifacts:
   - path: app\docs-site.zip
@@ -31,7 +30,7 @@ on_failure:
 notifications:
   - provider: Email
     to:
-      - you@example.com
+      - timothyvo2000@gmail.com
     on_build_success: false
     on_build_failure: true
     on_build_status_changed: true
