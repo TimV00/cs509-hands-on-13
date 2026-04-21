@@ -1,10 +1,10 @@
 // build.cake
-var target        = Argument("target", "Default");
+var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-var projectFile = "./app.csproj";
-var docsDir     = "./docs";
-var siteDir     = "./docs/_site";
+var projectFile = "./app.sln";
+var docsDir = "./docs";
+var siteDir = "./docs/_site";
 
 var isAppVeyor = AppVeyor.IsRunningOnAppVeyor;
 
@@ -31,7 +31,7 @@ Task("Format")
         DotNetTool("format", new DotNetToolSettings
         {
             ArgumentCustomization = args => args
-                .Append(projectFile)
+                .Append("./app.sln")
                 .Append("--verify-no-changes")
         });
 
