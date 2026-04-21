@@ -34,9 +34,6 @@ Task("Format")
                 .Append("./app.sln")
                 .Append("--verify-no-changes")
         });
-
-        if (isAppVeyor)
-            AppVeyor.AddInformationalMessage("Formatting check passed.");
     });
 
 Task("Build-Debug")
@@ -48,9 +45,6 @@ Task("Build-Debug")
             Configuration = "Debug",
             NoRestore = true
         });
-
-        if (isAppVeyor)
-            AppVeyor.AddInformationalMessage("Debug build passed.");
     });
 
 Task("Build-Release")
@@ -62,9 +56,6 @@ Task("Build-Release")
             Configuration = "Release",
             NoRestore = true
         });
-
-        if (isAppVeyor)
-            AppVeyor.AddInformationalMessage("Release build passed.");
     });
 
 Task("Analyze")
@@ -80,9 +71,6 @@ Task("Analyze")
                 .Append("/p:AnalysisMode=All")
                 .Append("/p:TreatWarningsAsErrors=true")
         });
-
-        if (isAppVeyor)
-            AppVeyor.AddInformationalMessage("Static analysis passed.");
     });
 
 Task("Test")
@@ -103,8 +91,6 @@ Task("Test")
         {
             foreach (var result in GetFiles("./TestResults/*.trx"))
                 AppVeyor.UploadTestResults(result, AppVeyorTestResultsType.MSTest);
-
-            AppVeyor.AddInformationalMessage("All tests passed.");
         }
     });
 
@@ -121,9 +107,6 @@ Task("Docs")
         {
             Arguments = $"build {docsDir}/docfx.json"
         });
-
-        if (isAppVeyor)
-            AppVeyor.AddInformationalMessage("Documentation built successfully.");
     });
 
 Task("Publish-Docs")
@@ -133,10 +116,7 @@ Task("Publish-Docs")
         Zip(siteDir, "./docs-site.zip");
 
         if (isAppVeyor)
-        {
             AppVeyor.UploadArtifact("./docs-site.zip");
-            AppVeyor.AddInformationalMessage("Documentation artifact uploaded.");
-        }
     });
 
 Task("Default")
