@@ -1,0 +1,22 @@
+version: 1.0.{build}
+
+image: Visual Studio 2022
+
+environment:
+  DOTNET_VERSION: 9.0.x
+
+install:
+  - cmd: dotnet tool restore
+
+build_script:
+  - cmd: dotnet cake --target=Build
+
+test_script:
+  - cmd: dotnet cake --target=Test
+
+after_build:
+  - cmd: dotnet cake --target=Docs
+
+artifacts:
+  - path: docs/_site/**/*
+    name: Documentation

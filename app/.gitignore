@@ -1,0 +1,6 @@
+tools/
+docs/_site/
+bin/
+obj/
+TestResults/
+docs/api/
