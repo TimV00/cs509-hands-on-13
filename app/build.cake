@@ -116,9 +116,6 @@ Task("Publish-Docs")
     .Does(() =>
     {
         Zip(siteDir, "./docs-site.zip");
-
-        if (isAppVeyor)
-            AppVeyor.UploadArtifact("./docs-site.zip");
     });
 
 Task("Default")
