@@ -4,7 +4,7 @@ image: Visual Studio 2022
 
 build: off
 
-init:
+install:
   - ps: |
       Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
       .\dotnet-install.ps1 -Channel 10.0 -InstallDir "C:\Program Files\dotnet"
@@ -12,9 +12,6 @@ init:
       [Environment]::SetEnvironmentVariable("PATH", "C:\Program Files\dotnet;" + [Environment]::GetEnvironmentVariable("PATH", "Machine"), "Machine")
   - cmd: refreshenv
   - cmd: dotnet --list-sdks
-
-install:
-  - cmd: refreshenv
   - cmd: dotnet --version
   - cmd: dotnet tool restore
 
@@ -34,7 +31,7 @@ on_failure:
 notifications:
   - provider: Email
     to:
-      - you@example.com
+      - timothyvo2000@gmail.com
     on_build_success: false
     on_build_failure: true
     on_build_status_changed: true
