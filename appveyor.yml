@@ -13,16 +13,16 @@ install:
   - cmd: refreshenv
   - cmd: dotnet --list-sdks
   - cmd: dotnet --version
-  - cmd: dotnet tool restore
+  - cmd: cd app && dotnet tool restore
 
 build_script:
   - cmd: refreshenv
-  - cmd: dotnet cake --target=Full
+  - cmd: cd app && dotnet cake --target=Full
 
 artifacts:
-  - path: docs-site.zip
+  - path: app\docs-site.zip
     name: Documentation
-  - path: TestResults\*.trx
+  - path: app\TestResults\*.trx
     name: TestResults
 
 on_failure:
@@ -31,7 +31,7 @@ on_failure:
 notifications:
   - provider: Email
     to:
-      - timothyvo2000@gmail.com
+      - you@example.com
     on_build_success: false
     on_build_failure: true
     on_build_status_changed: true
