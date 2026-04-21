@@ -3,10 +3,10 @@ version: 1.0.{build}
 image: Visual Studio 2022
 
 environment:
-  DOTNET_VERSION: 9.0.x
+  DOTNET_VERSION: 10.0.x
 
 install:
-  - cmd: choco install dotnet-sdk --version=9.0.0 -y
+  - cmd: choco install dotnet-sdk --version=10.0.0 -y
   - cmd: dotnet tool restore
 
 build_script:
