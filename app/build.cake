@@ -98,14 +98,16 @@ Task("Docs")
     .IsDependentOn("Build-Release")
     .Does(() =>
     {
-        StartProcess("docfx", new ProcessSettings
+        DotNetTool("docfx", new DotNetToolSettings
         {
-            Arguments = $"metadata {docsDir}/docfx.json"
+            ArgumentCustomization = args => args
+                .Append($"metadata {docsDir}/docfx.json")
         });
 
-        StartProcess("docfx", new ProcessSettings
+        DotNetTool("docfx", new DotNetToolSettings
         {
-            Arguments = $"build {docsDir}/docfx.json"
+            ArgumentCustomization = args => args
+                .Append($"build {docsDir}/docfx.json")
         });
     });
 
