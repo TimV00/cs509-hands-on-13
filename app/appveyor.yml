@@ -2,18 +2,17 @@ version: 1.0.{build}
 
 image: Visual Studio 2022
 
-environment:
-  DOTNET_INSTALL_DIR: C:\Program Files\dotnet
+init:
+  - ps: |
+      Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+      .\dotnet-install.ps1 -Channel 10.0 -InstallDir "C:\Program Files\dotnet"
+      $env:DOTNET_ROOT = "C:\Program Files\dotnet"
+      $env:PATH = "C:\Program Files\dotnet;" + $env:PATH
+      [Environment]::SetEnvironmentVariable("DOTNET_ROOT", $env:DOTNET_ROOT, "Machine")
+      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
+      dotnet --list-sdks
 
 install:
-  - ps: |
-      $env:DOTNET_INSTALL_DIR = "C:\Program Files\dotnet"
-      Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-      .\dotnet-install.ps1 -Channel 10.0 -Quality GA -InstallDir $env:DOTNET_INSTALL_DIR
-      $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
-      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, "Machine")
-      dotnet --version
-      dotnet --list-sdks
   - cmd: dotnet tool restore
 
 build_script:
