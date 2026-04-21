@@ -6,7 +6,7 @@ environment:
   DOTNET_VERSION: 10.0.x
 
 install:
-  - cmd: choco install dotnet-sdk --pre --version=10.0.0-preview -y
+  - cmd: choco install dotnet-sdk --pre --version=10.0.103 -y
   - cmd: dotnet --version
   - cmd: dotnet tool restore
 
