@@ -2,6 +2,8 @@ version: 1.0.{build}
 
 image: Visual Studio 2022
 
+build: off
+
 init:
   - ps: |
       Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
